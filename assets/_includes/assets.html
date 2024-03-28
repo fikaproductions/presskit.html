@@ -8,22 +8,14 @@
     <p>
       <strong>{{../name}}</strong> — <a href="https://www.youtube.com/embed/{{trim .}}?rel=0">YouTube</a> {{#if ../download}}| <a href="{{../download}}" target="_blank">Download</a>{{/if}}
     </p>
-
-    <div class="video-player">
-      <iframe class="video-player__frame" src="https://www.youtube.com/embed/{{trim .}}?rel=0" frameborder="0" allowfullscreen></iframe>
-    </div>
     {{/youtube}}
-
-    {{#vimeo}}
-    <p>
-      <strong>{{../name}}</strong> — <a href="https://player.vimeo.com/video/{{trim .}}">Vimeo</a> {{#if ../download}}| <a href="{{../download}}" target="_blank">Download</a>{{/if}}
-    </p>
-
-    <div class="video-player">
-      <iframe class="video-player__frame" src="https://player.vimeo.com/video/{{trim .}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-    </div>
-    {{/vimeo}}
-
+    {{#unless youtube}}
+      {{#vimeo}}
+      <p>
+        <strong>{{../name}}</strong> — <a href="https://player.vimeo.com/video/{{trim .}}">Vimeo</a> {{#if ../download}}| <a href="{{../download}}" target="_blank">Download</a>{{/if}}
+      </p>
+      {{/vimeo}}
+    {{/unless}}
     {{#unless youtube}}
       {{#unless vimeo}}
         {{#download}}
@@ -31,6 +23,28 @@
           <strong>{{../name}}</strong> — <a href="{{../download}}" target="_blank">Download</a>
         </p>
         {{/download}}
+      {{/unless}}
+    {{/unless}}
+    
+    {{#download}}
+    <div class="video-player">
+      <video class="video-player__frame" controls="controls"><source src="{{trim .}}" type="video/mp4"/></video>
+    </div>
+    {{/download}}
+    {{#unless download}}
+      {{#youtube}}
+      <div class="video-player">
+        <iframe class="video-player__frame" src="https://www.youtube.com/embed/{{trim .}}?rel=0" frameborder="0" allowfullscreen></iframe>
+      </div>
+      {{/youtube}}
+    {{/unless}}
+    {{#unless download}}
+      {{#unless youtube}}
+        {{#vimeo}}
+        <div class="video-player">
+          <iframe class="video-player__frame" src="https://player.vimeo.com/video/{{trim .}}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        </div>
+        {{/vimeo}}
       {{/unless}}
     {{/unless}}
   </div>
